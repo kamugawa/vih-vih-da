@@ -1,0 +1,225 @@
+:root {
+    --primary-red: #ff0033;
+    --wine: #722F37;
+    --light-red: #ff6b6b;
+    --dark-wine: #4a1f23;
+}
+
+body {
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: var(--dark-wine);
+    font-family: 'Courier New', monospace;
+    overflow: hidden;
+}
+
+.game-container {
+    width: 100vw;
+    height: 100vh;
+    background-color: var(--wine);
+    position: relative;
+    overflow: hidden;
+    border: 4px solid var(--primary-red);
+    box-shadow: 0 0 20px rgba(255, 0, 51, 0.5);
+}
+
+.rotate-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: var(--dark-wine);
+    z-index: 9999;
+    justify-content: center;
+    align-items: center;
+}
+
+.rotate-message {
+    color: white;
+    text-align: center;
+    font-size: 24px;
+    padding: 20px;
+}
+
+.rotate-icon {
+    font-size: 48px;
+    margin-top: 20px;
+    animation: rotate 1.5s infinite;
+}
+
+@keyframes rotate {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(90deg); }
+}
+
+#start-screen {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(74, 31, 35, 0.9);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+}
+
+#play-button {
+    padding: clamp(10px, 4vw, 15px) clamp(20px, 8vw, 40px);
+    font-size: clamp(18px, 6vw, 24px);
+    background-color: var(--primary-red);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-family: 'Courier New', monospace;
+    font-weight: bold;
+    transition: transform 0.2s;
+    box-shadow: 0 4px 0 var(--dark-wine);
+}
+
+#play-button:hover {
+    transform: scale(1.1);
+}
+
+#play-button:active {
+    transform: translateY(4px);
+    box-shadow: none;
+}
+
+#character {
+    width: clamp(30px, 8vw, 40px);
+    height: clamp(30px, 8vw, 40px);
+    background-color: var(--primary-red);
+    position: absolute;
+    bottom: 15%;
+    left: 50px;
+    transition: transform 0.2s;
+    clip-path: polygon(
+        0% 20%, 20% 20%, 20% 0%, 80% 0%, 80% 20%, 
+        100% 20%, 100% 80%, 80% 80%, 80% 100%, 
+        20% 100%, 20% 80%, 0% 80%
+    );
+}
+
+.platform {
+    position: absolute;
+    background-color: var(--light-red);
+    height: clamp(15px, 4vw, 20px);
+    width: clamp(80px, 20vw, 100px);
+    bottom: 10%;
+}
+
+.p1 { left: 25%; }
+.p2 { left: 50%; }
+.p3 { left: 75%; }
+
+#heart {
+    width: clamp(25px, 6vw, 30px);
+    height: clamp(25px, 6vw, 30px);
+    position: absolute;
+    right: 5%;
+    bottom: 15%;
+    background-color: var(--primary-red);
+    transform: rotate(45deg);
+    animation: pulse 1s infinite;
+}
+
+#heart::before,
+#heart::after {
+    content: '';
+    width: 100%;
+    height: 100%;
+    background-color: var(--primary-red);
+    border-radius: 50%;
+    position: absolute;
+}
+
+#heart::before {
+    left: -50%;
+}
+
+#heart::after {
+    top: -50%;
+}
+
+@keyframes pulse {
+    0% { transform: rotate(45deg) scale(1); }
+    50% { transform: rotate(45deg) scale(1.1); }
+    100% { transform: rotate(45deg) scale(1); }
+}
+
+#message {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: var(--wine);
+    padding: clamp(15px, 5vw, 20px);
+    border: 4px solid var(--primary-red);
+    text-align: center;
+    color: white;
+    display: none;
+    width: 80%;
+    max-width: 300px;
+}
+
+#message h2 {
+    font-size: clamp(20px, 6vw, 24px);
+    margin: 0 0 10px 0;
+}
+
+#message p {
+    font-size: clamp(16px, 4vw, 18px);
+    margin: 0;
+}
+
+#message.show {
+    display: block;
+    animation: fadeIn 0.5s;
+}
+
+.hidden {
+    display: none;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes jump {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(min(-15vh, -100px)); }
+}
+
+@media (orientation: portrait) {
+    .rotate-overlay {
+        display: flex;
+    }
+    
+    .game-container {
+        display: none;
+    }
+}
+
+@media (orientation: landscape) {
+    .rotate-overlay {
+        display: none;
+    }
+    
+    .game-container {
+        display: block;
+    }
+    
+    body {
+        height: 100vh;
+        width: 100vw;
+    }
+}
